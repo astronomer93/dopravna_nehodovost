@@ -1,0 +1,4 @@
+11prvyVektor <- c(30,20,18,17,38,45)
+druhyVektor <- c(20,15,21,24,14,25)
+tabulka <- data.frame(vyska=11prvyVektor,sirka=druhyVektor, row.names=c("pracka","zehlicka","pocitac","radio","stol","tanier"))
+print(tabulka)

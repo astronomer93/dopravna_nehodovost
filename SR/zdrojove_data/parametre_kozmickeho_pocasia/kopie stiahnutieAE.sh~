@@ -1,0 +1,32 @@
+
+for rok in {2007..2014}
+do
+	echo "AE;" >> "${rok}AE.csv"
+	for mesiac in {1..12}
+	do
+		for den in {1..31}
+		do
+			if [ $den -gt 28 -a $mesiac -eq 2 -a $rok -eq 2007 -o $den -gt 29 -a $mesiac -eq 2 -a $rok -eq 2008 -o $den -gt 28 -a $mesiac -eq 2 -a $rok -eq 2009 -o $den -gt 28 -a $mesiac -eq 2 -a $rok -eq 2010 -o $den -gt 28 -a $mesiac -eq 2 -a $rok -eq 2011 -o $den -gt 29 -a $mesiac -eq 2 -a $rok -eq 2012 -o $den -gt 28 -a $mesiac -eq 2 -a $rok -eq 2013 -o $den -gt 28 -a $mesiac -eq 2 -a $rok -eq 2014 -o $den -gt 30 -a $mesiac -eq 4 -o $den -gt 30 -a $mesiac -eq 6 -o $den -gt 30 -a $mesiac -eq 9 -o $den -gt 30 -a $mesiac -eq 11 ] ; then 
+				continue		
+		
+			elif [ $den -gt 9 -a $mesiac -gt 9 ] ; then
+				wget --post-data "activity=retrieve&res=hour&spacecraft=omni2&start_date=${rok}${mesiac}$den&end_date=${rok}${mesiac}$den&vars=41&scale=Linear&ymin=&ymax=&view=0&charsize=&xstyle=0&ystyle=0&symbol=0&symsize=&linestyle=solid&table=0&imagex=640&imagey=480&color=&back=" http://omniweb.gsfc.nasa.gov/cgi/nx1.cgi -O data.txt -q 
+sed '1,8d' test.txt | awk '{print $4}' | sed '25,80d' | awk '{sum +=$0} END {if(NR > 0) printf "%f;\n", sum/NR}' >> "AE.csv" && rm data.txt 		
+		
+			elif [ $den -le 9 -a $mesiac -gt 9 ] ; then
+				wget --post-data "activity=retrieve&res=hour&spacecraft=omni2&start_date=${rok}${mesiac}0$den&end_date=${rok}${mesiac}0$den&vars=41&scale=Linear&ymin=&ymax=&view=0&charsize=&xstyle=0&ystyle=0&symbol=0&symsize=&linestyle=solid&table=0&imagex=640&imagey=480&color=&back=" http://omniweb.gsfc.nasa.gov/cgi/nx1.cgi -O data.txt -q 
+sed '1,8d' test.txt | awk '{print $4}' | sed '25,80d' | awk '{sum +=$0} END {if(NR > 0) printf "%f;\n", sum/NR}' >> "AE.csv" && rm data.txt 		
+	
+			elif [ $den -gt 9 -a $mesiac -le 9 ] ; then
+				wget --post-data "activity=retrieve&res=hour&spacecraft=omni2&start_date=${rok}0${mesiac}$den&end_date=${rok}0${mesiac}$den&vars=41&scale=Linear&ymin=&ymax=&view=0&charsize=&xstyle=0&ystyle=0&symbol=0&symsize=&linestyle=solid&table=0&imagex=640&imagey=480&color=&back=" http://omniweb.gsfc.nasa.gov/cgi/nx1.cgi -O data.txt -q 
+sed '1,8d' test.txt | awk '{print $4}' | sed '25,80d' | awk '{sum +=$0} END {if(NR > 0) printf "%f;\n", sum/NR}' >> "AE.csv" && rm data.txt 
+
+			elif [ $den -le 9 -a $mesiac -le 9 ] ; then
+			wget --post-data "activity=retrieve&res=hour&spacecraft=omni2&start_date=${rok}0${mesiac}0$den&end_date=${rok}0${mesiac}0$den&vars=41&scale=Linear&ymin=&ymax=&view=0&charsize=&xstyle=0&ystyle=0&symbol=0&symsize=&linestyle=solid&table=0&imagex=640&imagey=480&color=&back=" http://omniweb.gsfc.nasa.gov/cgi/nx1.cgi -O data.txt -q 
+sed '1,8d' test.txt | awk '{print $4}' | sed '25,80d' | awk '{sum +=$0} END {if(NR > 0) printf "%f;\n", sum/NR}' >> "AE.csv" && rm data.txt 
+
+			fi
+		done
+
+	done
+done
