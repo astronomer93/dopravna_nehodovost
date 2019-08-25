@@ -1,4 +1,0 @@
-rm hi.txt
-pdftotext -raw 1.tyzden.2011.pdf - | grep -A2 Usmrtení | head -3 | grep '2011' | egrep -o '[0-9]{1,3}\/[0-9]{1,3}\/[0-9]{1,3}\/[0-9]{1,3}$' | egrep -o '[0-9]{1,3}' | awk 'BEGIN {num=0;}{num+=$1;} END {print number}' >> hi.txt
-
-

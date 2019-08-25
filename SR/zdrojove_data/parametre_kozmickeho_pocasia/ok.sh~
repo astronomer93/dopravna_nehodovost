@@ -1,2 +1,0 @@
-wget --post-data "activity=retrieve&res=hour&spacecraft=omni2&start_date=20161219&end_date=20161225&vars=40&scale=Linear&ymin=&ymax=&view=0&charsize=&xstyle=0&ystyle=0&symbol=0&symsize=&linestyle=solid&table=0&imagex=640&imagey=480&color=&back=" https://omniweb.sci.gsfc.nasa.gov/cgi/nx1.cgi -O data.txt -q
-sed '1,8d' data.txt | awk '{print $4}' | sed '25,3800d' | awk '{sum += $0} END {if(NR > 0) printf "%f;\n", sum/NR}' >> "docasna_tabulka.csv" 
